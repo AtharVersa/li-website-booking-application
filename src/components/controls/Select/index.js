@@ -10,7 +10,7 @@ export default function Select ({ label, name, error, register, required, data }
   return (
     <>
         <select
-            className={'custom-select custom-select-sm' + (!error ?  '' :' is-invalid')}
+            className={'custom-select' + (!error ?  '' :' is-invalid')}
             {...register(name, required)}>
               <option value="">{`-- Select ${label} --`}</option>
               {data.map((item, i) => <option value={item.name} key={i}>{item.value === undefined ? item.name : item.value }</option>)}

@@ -1,0 +1,5 @@
+.autocomplete-active {
+    background-color: #151965 !important;
+    color: #ffffff;
+    cursor: pointer;
+}

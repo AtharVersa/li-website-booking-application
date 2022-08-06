@@ -1,15 +1,21 @@
-import React from 'react'
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from 'react'
+import { useForm, Controller } from "react-hook-form";
+import axios from 'axios';
 
 import { TimeConvert, DateConvert } from '../../utils'
 // import { DevTool } from "@hookform/devtools";
 
 /** Components */
 import { BookingHeader } from './header'
-import { Telephone } from './services';
+import { Telephone, VideoCall } from './services';
+
+const URL = 'https://api.language-interpreters.com/dev/api/v1';
 
 const CreateBooking = () => {
-    const {  register, handleSubmit, watch, formState: { errors, isValid } } = useForm({
+    const [languages, setLanguages] = useState([]);
+    const [files, setFiles] = useState([]);
+
+    const {  register, handleSubmit, watch, control, formState: { errors, isValid } } = useForm({
         mode: "onChange",
         defaultValues: {
             paymentMethod: "BACS",
@@ -18,18 +24,46 @@ const CreateBooking = () => {
         }
     });
 
+    const policyCheck = watch('policyCheckbox')
     const type = {
         bookingType: watch('bookingType'),
         businessType: watch('businessType'),
         serviceType: watch('serviceType')
     }
+   
+    const fileUploads = (fileObj) => {        
+        for(let i = 0; i < fileObj.length; i++) {
+            const formData = new FormData();
+            formData.append('file', fileObj[i])
+            formData.append('type', 'bookingFile')
+            axios.post(`${URL}/bookings/newupload`, formData).then(async (res) => {
+                if(res.data.success) {
+                    const result = res.data.data
+                    setFiles(oldArr => [...oldArr,result]);
+                }
+            })
+        }
+    }
+    
+    useEffect(() => {
+        const loadLanguages = async () => {
+          const response = await axios.get(`${URL}/languages/web`)
+          const newArrayObj = response.data.data.map(({ language: label, language: value, ...rest}) => ({  label, value, ...rest}))
+          setLanguages(newArrayObj)
+        }
+    
+        loadLanguages();
+    }, []);
+
 
     const onSubmit = async objData => {
         objData.startTime = TimeConvert(objData.startTime)
         objData.endTime = TimeConvert(objData.endTime)
         objData.date = DateConvert(objData.date)
-        
-        console.log(objData)
+        objData.language = objData.language.value
+        objData.fileList = files
+
+        console.table(objData)
     }
 
     return (
@@ -60,14 +94,16 @@ const CreateBooking = () => {
                                                 <span id="span-form"></span>
                                             </h4>
 
-                                            <BookingHeader register={register} errors={errors} type={type} />
+                                            <BookingHeader register={register} errors={errors} type={type} control={control} languages={languages}/>
 
                                             {/* Services */}
-                                            {/* {type?.serviceType === 'Telephone' && type?.businessType !== '' && type?.bookingType !== '' && */}
-                                                (<Telephone register={register} errors={errors} type={type} />)
-                                            {/* } */}
+                                            {type?.serviceType === 'Telephone' && type?.businessType !== '' && type?.bookingType !== '' &&
+                                                (<Telephone register={register} errors={errors} type={type} fileUploadHandler={fileUploads} />)
+                                             }
 
-                                            {type?.serviceType === 'Video Call' && "Video Call"}
+                                            {type?.serviceType === 'Video Call' && 
+                                            (<VideoCall register={register} errors={errors} type={type} fileUploadHandler={fileUploads}/>)
+                                            }
 
                                             {type?.serviceType === 'Onsite' && "Onsite"}
 
@@ -75,7 +111,7 @@ const CreateBooking = () => {
 
                                             {type?.serviceType === 'Transcription' && "Transcription"}
 
-                                            <button type='submit' className='btn btn-primary' disabled={!isValid}>Submit</button>
+                                            <button type='submit' className='btn btn-primary' disabled={!policyCheck}>Submit</button>
                                         </div>
                                     </div>
                                 </form>

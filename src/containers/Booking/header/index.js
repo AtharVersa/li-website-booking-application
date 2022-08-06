@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
+import { Controller } from "react-hook-form";
+import ReactSelect from "react-select";
 
 import { Input, Select } from '../../../components/index'
 
@@ -9,26 +11,26 @@ const styles = {
 }
 
 const isBookings = [
-  { name: 'Quotation'},
+  { name: 'Quotation' },
   { name: 'Booking' }
 ]
 
 const isBusiness = [
-  { name: 'Business'},
+  { name: 'Business' },
   { name: 'Private' }
 ]
 
 const isServices = [
-  { name: 'Telephone'},
-  { name: 'Video Call'},
-  { name: 'Onsite'},
-  { name: 'Translation'},
+  { name: 'Telephone' },
+  { name: 'Video Call' },
+  { name: 'Onsite' },
+  { name: 'Translation' },
   { name: 'Transcription' }
 ]
 
 const API = 'https://api.language-interpreters.com/dev'
 
-export const BookingHeader = ({ register, errors, type }) => {
+export const BookingHeader = ({ register, errors, type, languages, control }) => {
   const [isDepartment, setDepartment] = useState([])
 
 
@@ -92,7 +94,8 @@ export const BookingHeader = ({ register, errors, type }) => {
               register={register}
               required={{
                 required: "Company name",
-                maxLength: 5
+                minLength: { value: 2, message: 'Must have at least 2 letters' },
+                maxLength: { value: 50, message: 'Maximum characters limit is 50' }
               }}
               error={errors?.companyName?.message}
             />
@@ -106,7 +109,9 @@ export const BookingHeader = ({ register, errors, type }) => {
             type="text"
             register={register}
             required={{
-              required: "Name is required"
+              required: "Name is required",
+              minLength: { value: 2, message: 'Must have at least 2 letters' },
+              maxLength: { value: 40, message: 'Maximum characters limit is 40' }
             }}
             error={errors?.name?.message}
           />
@@ -128,10 +133,16 @@ export const BookingHeader = ({ register, errors, type }) => {
           <Input
             placeholder="Telephone"
             name="phone"
-            type="number"
+            type="text"
             register={register}
             required={{
-              required: "Telephone is required"
+              required: "Telephone is required",
+              pattern: {
+                value: /^[0-9]+$/,
+                message: 'Invalid phone number',
+              },
+              minLength: { value: 10, message: 'Must have at least 10 digits' },
+              maxLength: { value: 15, message: 'Maximum digits limit is 15' },
             }}
             error={errors?.phone?.message}
           />
@@ -144,10 +155,16 @@ export const BookingHeader = ({ register, errors, type }) => {
           <Input
             placeholder="Mobile"
             name="mobile"
-            type="number"
+            type="text"
             register={register}
             required={{
-              required: "Mobile number is required"
+              required: "Mobile number is required",
+              pattern: {
+                value: /^[0-9]+$/,
+                message: 'Invalid phone number',
+              },
+              minLength: { value: 10, message: 'Must have at least 10 digits' },
+              maxLength: { value: 15, message: 'Maximum digits limit is 15' },
             }}
             error={errors?.mobile?.message}
           />
@@ -159,7 +176,7 @@ export const BookingHeader = ({ register, errors, type }) => {
           <textarea
             className={'form-control form-control-sm' + (!errors?.address ? '' : ' is-invalid')}
             {...register("address", { required: "Address is required" })}
-            rows="2"
+            rows="3"
             placeholder="Your Address"></textarea>
           {errors?.address?.message && <span style={styles}>{errors?.address?.message}</span>}
         </div>
@@ -168,7 +185,7 @@ export const BookingHeader = ({ register, errors, type }) => {
           <textarea
             className={'form-control form-control-sm' + (!errors?.invoiceAddress ? '' : ' is-invalid')}
             {...register("invoiceAddress", { required: "Invoice Address is required" })}
-            rows="2"
+            rows="3"
             placeholder="Invoice Address"></textarea>
           {errors?.invoiceAddress?.message && <span style={styles}>{errors?.invoiceAddress?.message}</span>}
         </div>
@@ -203,20 +220,37 @@ export const BookingHeader = ({ register, errors, type }) => {
             </div>
           </div>
           <div className="col-md-3">
-            <div className="form-group autocomplete">
-              <label htmlFor="language" className="font-weight-bold text-primary">Language</label>
-              <input type="text" className="form-control form-control-sm" id="language" name="language"
-                placeholder="Language" />
-              <span className="helper-text"></span>
-            </div>
+            <label htmlFor="input-field" className="font-weight-bold text-primary">Language</label>
+            <Controller
+              name="language"
+              control={control}
+              render={({ field }) => (
+                <ReactSelect
+                  {...field}
+                  options={languages}
+                />
+              )}
+            />
           </div>
           <div className="col-md-3">
-            <div className="form-group">
-              <label htmlFor="language" className="font-weight-bold text-primary">Dialect</label>
-              <input type="text" className="form-control form-control-sm" id="dialect" name="dialect"
+            {/* <div className="form-group">
+              <label htmlFor="dialect" className="font-weight-bold text-primary">Dialect</label>
+              <input type="text" className="form-control " id="dialect" name="dialect"
                 placeholder="Dialect" />
               <span className="helper-text"></span>
-            </div>
+            </div> */}
+
+            <Input
+              label={'Dialect'}
+              placeholder="Dialect"
+              name="dialect"
+              type="text"
+              register={register}
+              required={{
+                required: "Dialect is required",
+              }}
+              error={errors?.dialect?.message}
+            />
           </div>
 
           <div className="col-md-6">

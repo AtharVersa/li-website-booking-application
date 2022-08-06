@@ -9,7 +9,7 @@ export default function Input ({ label, type, register, placeholder, name, error
     return (
         <>
         {label && <label htmlFor="input-field">{label}</label>}
-            <input type={type} className={'form-control form-control-sm' + (!error ?  '' :' is-invalid')}
+            <input type={type} className={'form-control' + (!error ?  '' :' is-invalid')}
                 placeholder={placeholder}
                 name={name}
                 {...register(name, required )}

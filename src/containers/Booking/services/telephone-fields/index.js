@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 
-import { Input, Select } from '../../../../components/index'
+import { Input, Select, FileUploads } from '../../../../components/index'
 import { genders, purposeOfCalls } from '../dropdown-options';
 
 const API = 'https://api.language-interpreters.com/dev'
@@ -11,7 +11,7 @@ const errorStyles = {
   fontSize: '12px'
 }
 
-export default function Telephone ({ type, register, errors }) {
+export default function Telephone ({ type, register, errors, fileUploadHandler }) {
   const [caseTypes, setCaseTypes] = useState([])
 
   const getCaseTypes = useCallback(async () => {
@@ -182,6 +182,12 @@ export default function Telephone ({ type, register, errors }) {
           </div>
 
           <div className="form-group row">
+            <div className="form-group mt-3 mx-3">
+              <FileUploads fileUploadHandler={fileUploadHandler}/>
+            </div>
+          </div>
+
+          <div className="form-group row">
             <div className="col-md-12 mt-3">
               <textarea
                 className={'form-control form-control-sm' + (!errors?.notes ? '' : ' is-invalid')}
@@ -201,7 +207,7 @@ export default function Telephone ({ type, register, errors }) {
                   type="checkbox" 
                   name="policyCheckbox"
                   className="custom-control-input"
-                  {...register("policyCheckbox")}
+                  {...register("policyCheckbox", { required: true })}
                   id="policy-checkbox"
                   />
                 <label className="custom-control-label" htmlFor="policy-checkbox">

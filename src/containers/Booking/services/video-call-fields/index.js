@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 
 
-import { Input, Select } from '../../../../components/index'
+import { Input, Select, FileUploads } from '../../../../components/index'
 
 const API = 'https://api.language-interpreters.com/dev'
 
@@ -29,7 +29,7 @@ const purposeOfCalls = [
   { name: 'Other', value: 'Other' }
 ]
 
-export default function VideoCall ({ type, register, errors }) {
+export default function VideoCall ({ type, register, errors, fileUploadHandler }) {
   const [caseTypes, setCaseTypes] = useState([])
 
 
@@ -52,7 +52,7 @@ export default function VideoCall ({ type, register, errors }) {
         <hr />
         <h5
           className={'card-title text-center text-white py-2 m-0 ' + (type?.bookingType !== "Booking" ? "bg-dark" : "bg-primary")}>
-          Telephone Interpreting - ({type?.bookingType})
+          Video Call Interpreting - ({type?.bookingType})
         </h5>
 
         <div className='mt-3'>
@@ -197,6 +197,12 @@ export default function VideoCall ({ type, register, errors }) {
                 }}
                 error={errors?.endTime?.message}
               />
+            </div>
+          </div>
+
+          <div className="form-group row">
+            <div className="form-group mt-3 mx-3">
+              <FileUploads fileUploadHandler={fileUploadHandler}/>
             </div>
           </div>
 
