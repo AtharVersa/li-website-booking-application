@@ -7,7 +7,6 @@ const styles = {
 
 export default function Select ({ label, name, error, register, required, data, disable }) {
   // console.log(error)
-  console.log(disable)
   return (
     <>
     {label && <label htmlFor="input-field" className="font-weight-bold text-primary">{label}</label>}

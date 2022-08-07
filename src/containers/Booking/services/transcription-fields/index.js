@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
 
 import { Input, Select, FileUploads } from '../../../../components/index'
-import { genders, purposeOfCalls } from '../dropdown-options';
 
 const API = 'https://api.language-interpreters.com/dev'
 
@@ -42,7 +41,7 @@ export default function Transcription({ type, register, errors, fileUploadHandle
   ]
   useEffect(() => {
     getCaseTypes();
-  }, [])
+  }, [getCaseTypes])
 
   return (
     <>
@@ -256,7 +255,7 @@ export default function Transcription({ type, register, errors, fileUploadHandle
                   id="policy-checkbox"
                 />
                 <label className="custom-control-label" htmlFor="policy-checkbox">
-                  <a href="https://language-interpreters.com/privacy-policy/" target="_blank">
+                  <a href="https://language-interpreters.com/privacy-policy/" target="_blank" rel="noopener noreferrer" >
                     <u>I agree to Language Interpreters Privacy Policy</u></a>
                 </label>
               </div>

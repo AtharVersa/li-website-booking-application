@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from 'axios';
 
 import './Booking.css'
@@ -14,12 +14,11 @@ import { Telephone, VideoCall, Onsite, Translation, Transcription } from './serv
 const URL = `${process.env.REACT_APP_BASE_URL}/api/v1`;
 
 const CreateBooking = () => {
-    console.log('CREATING-FORM')
     const [languages, setLanguages] = useState([]);
     const [files, setFiles] = useState([]);
     const [isLoader, setIsLoader] = useState(false);
 
-    const {  register, handleSubmit, watch, control, formState: { errors, isValid }, reset } = useForm({
+    const {  register, handleSubmit, watch, control, formState: { errors }, reset } = useForm({
         mode: "onChange",
         defaultValues: {
             paymentMethod: "BACS",
@@ -81,7 +80,7 @@ const CreateBooking = () => {
             setIsLoader(false)
             console.log('saving response', response)
         }
-    }, [reset])
+    }, [reset, files])
 
     return (
         <>

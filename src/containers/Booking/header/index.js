@@ -45,8 +45,8 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
 
   useEffect(() => {
     getDepartment();
-  }, [])
-console.log(type)
+  }, [getDepartment])
+
   return (
     <>
       <div className="form-group row">
