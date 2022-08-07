@@ -8,7 +8,7 @@ const styles = {
 export default function Input ({ label, type, register, placeholder, name, error, required }) {
     return (
         <>
-        {label && <label htmlFor="input-field">{label}</label>}
+        {label && <label htmlFor="input-field" className="font-weight-bold text-primary">{label}</label>}
             <input type={type} className={'form-control' + (!error ?  '' :' is-invalid')}
                 placeholder={placeholder}
                 name={name}

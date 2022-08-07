@@ -28,7 +28,7 @@ const isServices = [
   { name: 'Transcription' }
 ]
 
-const API = 'https://api.language-interpreters.com/dev'
+const URL = `${process.env.REACT_APP_BASE_URL}/api/v1`;
 
 export const BookingHeader = ({ register, errors, type, languages, control }) => {
   const [isDepartment, setDepartment] = useState([])
@@ -36,7 +36,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
 
   const getDepartment = useCallback(async () => {
     try {
-      const { data } = await axios.get(`${API}/api/v1/departments`)
+      const { data } = await axios.get(`${URL}/departments`)
       setDepartment(data.data)
     } catch (error) {
       console.log(error)
@@ -223,14 +223,20 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
             <label htmlFor="input-field" className="font-weight-bold text-primary">Language</label>
             <Controller
               name="language"
+              className={'form-control form-control-sm' + (!errors?.language ? '' : ' is-invalid')}
               control={control}
+              rules={{
+                required: "Language is required"
+              }}
               render={({ field }) => (
                 <ReactSelect
                   {...field}
                   options={languages}
+
                 />
               )}
             />
+            {errors?.language?.message && <span style={styles}>{errors?.language?.message}</span>}
           </div>
           <div className="col-md-3">
             {/* <div className="form-group">

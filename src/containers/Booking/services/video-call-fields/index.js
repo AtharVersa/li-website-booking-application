@@ -130,7 +130,7 @@ export default function VideoCall ({ type, register, errors, fileUploadHandler }
                 label="Interpreter Gender"
                 name="gender"
                 register={register}
-                required={{ required: "Interreter gender is required" }}
+                required={{ required: "Interpreter gender is required" }}
                 data={genders}
                 error={errors?.gender?.message}
               />
@@ -211,7 +211,7 @@ export default function VideoCall ({ type, register, errors, fileUploadHandler }
               <textarea
                 className={'form-control form-control-sm' + (!errors?.notes ? '' : ' is-invalid')}
                 {...register("notes", { required: "Notes / Special instructions is required" })}
-                rows="2"
+                rows="3"
                 placeholder="Notes / Special instructions">
                 </textarea>
                 <small id="tel-inter-duration-video" className="form-text text-muted">

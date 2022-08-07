@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 const MAX_COUNT = 5;
 
-const Fileuploads = ({ fileUploadHandler }) => {
+const Fileuploads = ({ fileUploadHandler, description }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [fileLimit, setFileLimit] = useState(false);
 
@@ -90,7 +90,7 @@ const Fileuploads = ({ fileUploadHandler }) => {
 
             <label htmlFor='fileUpload'>
                 <a className={`btn btn-dark text-white mr-2 ${!fileLimit ? '' : "disabled"}`}>Choose Files(s)</a>
-                <small>to upload the document – upto {MAX_COUNT} documents</small>
+                <small>{description ? description + ` – upto ${MAX_COUNT} files`: `to upload the document – upto ${MAX_COUNT} documents`}</small>
             </label>
 
             <div className='uploaded-files-list'>

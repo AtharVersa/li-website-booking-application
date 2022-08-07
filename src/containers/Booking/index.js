@@ -1,30 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import axios from 'axios';
 
+import './Booking.css'
 import { TimeConvert, DateConvert } from '../../utils'
 // import { DevTool } from "@hookform/devtools";
 
 /** Components */
+import { Loader, Footer } from '../../components';
 import { BookingHeader } from './header'
-import { Telephone, VideoCall } from './services';
+import { Telephone, VideoCall, Onsite, Translation, Transcription } from './services';
 
-const URL = 'https://api.language-interpreters.com/dev/api/v1';
+const URL = `${process.env.REACT_APP_BASE_URL}/api/v1`;
 
 const CreateBooking = () => {
+    console.log('CREATING-FORM')
     const [languages, setLanguages] = useState([]);
     const [files, setFiles] = useState([]);
+    const [isLoader, setIsLoader] = useState(false);
 
-    const {  register, handleSubmit, watch, control, formState: { errors, isValid } } = useForm({
+    const {  register, handleSubmit, watch, control, formState: { errors, isValid }, reset } = useForm({
         mode: "onChange",
         defaultValues: {
             paymentMethod: "BACS",
             location: "In London",
-            policyCheckbox: false
+            policyCheckbox: false,
+            urgency: 'urgent'
         }
     });
 
     const policyCheck = watch('policyCheckbox')
+    const formatWatch = watch('formatType')
     const type = {
         bookingType: watch('bookingType'),
         businessType: watch('businessType'),
@@ -55,20 +61,35 @@ const CreateBooking = () => {
         loadLanguages();
     }, []);
 
-
-    const onSubmit = async objData => {
+    const onSubmit = useCallback(async objData => {
+        setIsLoader(true)
         objData.startTime = TimeConvert(objData.startTime)
         objData.endTime = TimeConvert(objData.endTime)
+
+        if(objData.startTime === null) delete objData.startTime
+        if(objData.endTime === null) delete objData.endTime
+        
         objData.date = DateConvert(objData.date)
         objData.language = objData.language.value
         objData.fileList = files
 
         console.table(objData)
-    }
+        const response = await axios.post(`${URL}/bookings`, objData)
+        if(response.data.success) {
+            
+            reset(response)
+            setIsLoader(false)
+            console.log('saving response', response)
+        }
+    }, [reset])
 
     return (
         <>
             {/* <DevTool control={control} />  */}
+            { isLoader && 
+                <div className='overlay'>
+                    <Loader />
+                </div>}
             <section className="w3l-contact mt-2">
                 <div className="contacts-9 py-4 mt-4">
                     <div className="container py-lg-2">
@@ -97,19 +118,25 @@ const CreateBooking = () => {
                                             <BookingHeader register={register} errors={errors} type={type} control={control} languages={languages}/>
 
                                             {/* Services */}
-                                            {type?.serviceType === 'Telephone' && type?.businessType !== '' && type?.bookingType !== '' &&
+                                            {(type?.serviceType === 'Telephone' && type?.businessType !== '' && type?.bookingType !== '') &&
                                                 (<Telephone register={register} errors={errors} type={type} fileUploadHandler={fileUploads} />)
                                              }
 
-                                            {type?.serviceType === 'Video Call' && 
+                                            {(type?.serviceType === 'Video Call' && type?.businessType !== '' && type?.bookingType !== '') && 
                                             (<VideoCall register={register} errors={errors} type={type} fileUploadHandler={fileUploads}/>)
                                             }
 
-                                            {type?.serviceType === 'Onsite' && "Onsite"}
+                                            {(type?.serviceType === 'Onsite' && type?.businessType !== '' && type?.bookingType !== '') && 
+                                                (<Onsite register={register} errors={errors} type={type} fileUploadHandler={fileUploads} />)
+                                            }
 
-                                            {type?.serviceType === 'Translation' && "Translation"}
+                                            {(type?.serviceType === 'Translation' && type?.businessType !== '' && type?.bookingType !== '') && 
+                                                (<Translation register={register} errors={errors} type={type} fileUploadHandler={fileUploads} />)
+                                            }
 
-                                            {type?.serviceType === 'Transcription' && "Transcription"}
+                                            {(type?.serviceType === 'Transcription' && type?.businessType !== '' && type?.bookingType !== '') && 
+                                                (<Transcription register={register} errors={errors} type={type} fileUploadHandler={fileUploads} formatWatch={formatWatch} />)
+                                            }
 
                                             <button type='submit' className='btn btn-primary' disabled={!policyCheck}>Submit</button>
                                         </div>
@@ -122,6 +149,7 @@ const CreateBooking = () => {
                 </div>
 
             </section>
+            <Footer />
         </>
     )
 }
