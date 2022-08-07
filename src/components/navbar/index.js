@@ -1,9 +1,10 @@
 import React from 'react'
+import './Navbar.css';
 
 export const Navbar = () => {
   return (
     <>
-    <div className="w3l-bootstrap-header sticky-top">
+    <div className="w3l-bootstrap-header sticky-top header">
         <nav className="navbar navbar-expand-lg navbar-light py-0">
           <div className="container">
             <a className="navbar-brand" href="http://language-interpreters.com/">

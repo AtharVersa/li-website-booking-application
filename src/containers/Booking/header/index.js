@@ -46,7 +46,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
   useEffect(() => {
     getDepartment();
   }, [])
-
+console.log(type)
   return (
     <>
       <div className="form-group row">
@@ -58,6 +58,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
             required={{ required: "Quotation/Booking is required" }}
             data={isBookings}
             error={errors?.bookingType?.message}
+            disable={type.bookingType}
           />
         </div>
 
@@ -69,6 +70,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
             required={{ required: "Business/Private is required" }}
             data={isBusiness}
             error={errors?.businessType?.message}
+            disable={type.businessType}
           />
         </div>
 
@@ -80,6 +82,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
             required={{ required: "Service Type is required" }}
             data={isServices}
             error={errors?.serviceType?.message}
+            disable={type.serviceType}
           />
         </div>
       </div>
@@ -88,6 +91,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
         {type?.businessType !== 'Private' &&
           (<div className="col-md-6">
             <Input
+              label={"Company Name"}
               placeholder="Company Name"
               name="companyName"
               type="text"
@@ -104,6 +108,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
 
         <div className="col-md-6 mt-md-0 mt-3">
           <Input
+          label={"Name"}
             placeholder="Name"
             name="name"
             type="text"
@@ -131,6 +136,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
         </div>
         <div className="col-md-4 mt-md-0 mt-3">
           <Input
+          label={"Telephone"}
             placeholder="Telephone"
             name="phone"
             type="text"
@@ -149,10 +155,8 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
         </div>
 
         <div className="col-md-4 mt-md-0 mt-3">
-          {/* <input type="text" className="form-control form-control-sm" id="mobile" name="mobile"
-            placeholder="Mobile" />
-          <span className="helper-text"></span> */}
           <Input
+          label={"Mobile"}
             placeholder="Mobile"
             name="mobile"
             type="text"
@@ -173,7 +177,9 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
 
       <div className="form-group row">
         <div className="col-md-6">
+        <label htmlFor="address" className="font-weight-bold text-primary">Address</label>
           <textarea
+          id='address'
             className={'form-control form-control-sm' + (!errors?.address ? '' : ' is-invalid')}
             {...register("address", { required: "Address is required" })}
             rows="3"
@@ -182,7 +188,9 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
         </div>
 
         <div className="col-md-6 mt-md-0 mt-3">
+        <label htmlFor="invoice-address" className="font-weight-bold text-primary">Invoice Address</label>
           <textarea
+          id='invoice-address'
             className={'form-control form-control-sm' + (!errors?.invoiceAddress ? '' : ' is-invalid')}
             {...register("invoiceAddress", { required: "Invoice Address is required" })}
             rows="3"
@@ -259,7 +267,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
             />
           </div>
 
-          <div className="col-md-6">
+          <div className="col-md-6 mt-3">
             <label htmlFor="in-london" className="font-weight-bold text-primary">Location</label>
             <div className="col-md-12 px-0">
               <div className="custom-control custom-radio custom-control-inline">

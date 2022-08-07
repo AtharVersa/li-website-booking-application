@@ -59,6 +59,7 @@ export default function Translation({ type, register, errors, fileUploadHandler 
           <div className="form-group row">
             <div className="col-md-6 mt-md-0 mt-3">
               <Input
+              label={"Email To"}
                 placeholder="Email To"
                 name="email"
                 type="text"
@@ -76,6 +77,7 @@ export default function Translation({ type, register, errors, fileUploadHandler 
 
             <div className="col-md-6 mt-md-0 mt-3">
               <Input
+              label={"Invoice To"}
                 placeholder="Invoice To"
                 name="invoiceTo"
                 type="text"
@@ -95,6 +97,7 @@ export default function Translation({ type, register, errors, fileUploadHandler 
           <div className="form-group row">
             <div className="col-md-6 mt-md-0 mt-3">
               <Input
+              label={"Your Client Name"}
                 placeholder="Your Client Name"
                 name="clientName"
                 type="text"
@@ -110,6 +113,7 @@ export default function Translation({ type, register, errors, fileUploadHandler 
 
             <div className="col-md-6 mt-md-0 mt-3">
               <Input
+              label={"File / Invoice Reference"}
                 placeholder="File / Invoice Reference"
                 name="fileRef"
                 type="text"
@@ -169,6 +173,7 @@ export default function Translation({ type, register, errors, fileUploadHandler 
           <div className="form-group row">
             <div className="col-md-4 mt-3">
               <Input
+              label={"Date of Return"}
                 placeholder="Date of Return"
                 name="date"
                 type="date"
@@ -207,7 +212,9 @@ export default function Translation({ type, register, errors, fileUploadHandler 
 
           <div className="form-group row">
             <div className="col-md-12 mt-3">
+            <label htmlFor="notes" className="font-weight-bold text-primary">Notes / Special instructions</label>
               <textarea
+              id='notes'
                 className={'form-control form-control-sm' + (!errors?.notes ? '' : ' is-invalid')}
                 {...register("notes", { required: "Notes / Special instructions is required" })}
                 rows="3"
