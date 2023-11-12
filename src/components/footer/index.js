@@ -6,7 +6,7 @@ let year = d.getFullYear();
 
 const Footer = () => {
   return (
-    <div className='footer'>© {year} Language Interpreters</div>
+    <div className='footer'>© {year} Language Interpreters Ltd.</div>
   )
 }
 

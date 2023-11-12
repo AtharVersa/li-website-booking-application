@@ -205,7 +205,7 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
         <div className="row">
           <div className="col-md-6">
             <label htmlFor="via-bacs" className="font-weight-bold text-primary">Payment Method</label>
-            <small className="text-muted">(Charges apply for Credit Cards)</small>
+            <small className="text-muted">(Charges may apply for Credit Cards)</small>
             <div className="col-md-12 px-0">
               <div className="custom-control custom-radio custom-control-inline">
                 <input type="radio" id="via-bacs" {...register("paymentMethod")}
@@ -260,9 +260,6 @@ export const BookingHeader = ({ register, errors, type, languages, control }) =>
               name="dialect"
               type="text"
               register={register}
-              required={{
-                required: "Dialect is required",
-              }}
               error={errors?.dialect?.message}
             />
           </div>
