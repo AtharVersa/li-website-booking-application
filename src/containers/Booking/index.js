@@ -33,17 +33,20 @@ const CreateBooking = () => {
     control,
     formState: { errors },
     reset,
+    setValue,
   } = useForm({
     mode: "onChange",
     defaultValues: {
       paymentMethod: "BACS",
       location: "In London",
       policyCheckbox: false,
+      isSplitInvoice: false,
       urgency: "urgent",
     },
   });
 
   const policyCheck = watch("policyCheckbox");
+  const isSplitInvoice = watch("isSplitInvoice");
   const formatWatch = watch("formatType");
   const type = {
     bookingType: watch("bookingType"),
@@ -217,6 +220,7 @@ const CreateBooking = () => {
                             errors={errors}
                             type={type}
                             fileUploadHandler={fileUploads}
+                            isSplitInvoice={isSplitInvoice}
                           />
                         )}
 
@@ -228,6 +232,7 @@ const CreateBooking = () => {
                             errors={errors}
                             type={type}
                             fileUploadHandler={fileUploads}
+                            isSplitInvoice={isSplitInvoice}
                           />
                         )}
 
@@ -239,6 +244,7 @@ const CreateBooking = () => {
                             errors={errors}
                             type={type}
                             fileUploadHandler={fileUploads}
+                            isSplitInvoice={isSplitInvoice}
                           />
                         )}
 
@@ -250,6 +256,7 @@ const CreateBooking = () => {
                             errors={errors}
                             type={type}
                             fileUploadHandler={fileUploads}
+                            isSplitInvoice={isSplitInvoice}
                           />
                         )}
 
@@ -262,6 +269,7 @@ const CreateBooking = () => {
                             type={type}
                             fileUploadHandler={fileUploads}
                             formatWatch={formatWatch}
+                            isSplitInvoice={isSplitInvoice}
                           />
                         )}
 

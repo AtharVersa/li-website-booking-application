@@ -31,7 +31,13 @@ const places = [
   { name: "Other", value: "Other" },
 ];
 
-export default function Onsite({ type, register, errors, fileUploadHandler }) {
+export default function Onsite({
+  type,
+  register,
+  errors,
+  fileUploadHandler,
+  isSplitInvoice,
+}) {
   const [caseTypes, setCaseTypes] = useState([]);
 
   const getCaseTypes = useCallback(async () => {
@@ -324,7 +330,35 @@ export default function Onsite({ type, register, errors, fileUploadHandler }) {
         </div>
 
         <div className="form-group row">
-          <div className="col-md-12 mt-3">
+          <div className="col-md-12">
+            <div className="custom-control custom-checkbox custom-control-inline">
+              <input
+                type="checkbox"
+                name="isSplitInvoice"
+                className="custom-control-input"
+                {...register("isSplitInvoice")}
+                id="split-checkbox"
+              />
+              <label className="custom-control-label" htmlFor="split-checkbox">
+                <u>
+                  Please tick this box if the request involves a split
+                  transaction between two or more firms
+                </u>
+              </label>
+            </div>
+          </div>
+
+          {isSplitInvoice && (
+            <div className="col-md-12 mt-3">
+              <label htmlFor="notes" className="font-weight-bold text-primary">
+                Please enter the split invoice details in the below box.
+              </label>
+            </div>
+          )}
+        </div>
+
+        <div className="form-group row">
+          <div className="col-md-12">
             <label htmlFor="notes" className="font-weight-bold text-primary">
               Notes / Special instructions
             </label>
@@ -351,7 +385,7 @@ export default function Onsite({ type, register, errors, fileUploadHandler }) {
             )}
           </div>
 
-          <div className="col-md-12 mt-3">
+          <div className="col-md-12">
             <div className="custom-control custom-checkbox custom-control-inline">
               <input
                 type="checkbox"
