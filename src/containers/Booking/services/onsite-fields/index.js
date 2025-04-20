@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-import { Input, Select, FileUploads } from "../../../../components/index";
+import { Input, Select, FileUploads, RequiredText } from "../../../../components/index";
 
 const API = process.env.REACT_APP_BASE_URL;
 
@@ -228,6 +228,7 @@ export default function Onsite({
                   required: "End time is required",
                 }}
                 error={errors?.endTime?.message}
+                note="Minimum 1hr duration"
               />
             </div>
           </div>
@@ -321,10 +322,14 @@ export default function Onsite({
               </span>
             )}
           </div>
+
+          {/* <div className="col-md-12 mt-3">
+            <RequiredText text="Minimum 1hr"/>
+          </div> */}
         </div>
 
         <div className="form-group row">
-          <div className="form-group mt-3 mx-3">
+          <div className="form-group mt-1 mx-3">
             <FileUploads fileUploadHandler={fileUploadHandler} />
           </div>
         </div>

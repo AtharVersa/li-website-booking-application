@@ -5,7 +5,7 @@ const styles = {
   fontSize: "12px",
 };
 
-function Input({ label, type, register, placeholder, name, error, required }) {
+function Input({ label, type, register, placeholder, name, error, required, note }) {
   function getCurrentDate() {
     if (type === "date") {
       const today = new Date();
@@ -20,7 +20,7 @@ function Input({ label, type, register, placeholder, name, error, required }) {
     <>
       {label && (
         <label htmlFor="input-field" className="font-weight-bold text-primary">
-          {label}
+          {label} {note && <span className="text-secondary">*{note}</span>}
         </label>
       )}
 

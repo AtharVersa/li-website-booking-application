@@ -15,14 +15,13 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "date-fns": "^2.15.0",
-    "env-cmd": "^10.1.0",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-draggable": "^4.4.3",
     "react-hook-form": "^7.33.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "react-select": "^5.4.0"
   },
   "scripts": {
@@ -51,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@hookform/devtools": "^2.0.4"
+    "@hookform/devtools": "^2.0.4",
+    "env-cmd": "^10.1.0"
   }
 }

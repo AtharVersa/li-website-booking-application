@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-import { Input, Select, FileUploads } from "../../../../components/index";
+import { Input, Select, FileUploads, RequiredText } from "../../../../components/index";
 import { genders, purposeOfCalls } from "../dropdown-options";
 
 const API = process.env.REACT_APP_BASE_URL;
@@ -208,12 +208,18 @@ export default function Telephone({
                   required: "End time is required",
                 }}
                 error={errors?.endTime?.message}
+                note="Minimum 30 mins duration"
               />
+
             </div>
+
+            {/* <div className="col-md-12 mt-3">
+              <RequiredText text="Minimum 30 mins"/>
+            </div> */}
           </div>
 
           <div className="form-group row">
-            <div className="form-group mt-3 mx-3">
+            <div className="form-group mt-1 mx-3">
               <FileUploads fileUploadHandler={fileUploadHandler} />
             </div>
           </div>
